@@ -10,15 +10,13 @@
     </div>
 
     <div>
-        <p>published: 13.12.2018, 16:00</p>
-        <h2><a href="">My first Post?</a></h2>
-        <p>こんにちは！　よろしくお願いします！</p>
-    </div>
-
-    <div>
-        <p>公開日: 2018/12/13 16:00</p>
-        <h2><a href="">2番目の投稿</a></h2>
-        <p>こんにちは！　よろしくお願いします！</p>
+        {% for post in posts %}
+        <div>
+            <p>published: {{ post.published_date }}</p>
+            <h1><a href="">{{ post.title }}</a></h1>
+            <p>{{ post.text|linebreaksbr }}</p>
+        </div>
+        {% endfor %}
     </div>
 </body>
 
