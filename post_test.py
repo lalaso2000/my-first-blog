@@ -1,14 +1,21 @@
 import json
 import urllib.request
+from datetime import datetime as dt, timezone, timedelta
 
 url = 'http://127.0.0.1:8000/api/posts/'
 
+# 現在時刻取得
+JST = timezone(timedelta(hours=+9), 'JST')
+timestr = dt.now(JST).isoformat()
+print(timestr)
+
+# postデータ生成
 data = {
     'author': 1,
-    'title': 'apiテスト',
-    'text': 'ほんとかなぁ？',
-    'created_date': '2018-12-17T14:00:00.000000+09:00',
-    'published_date': '2018-12-17T14:00:00.000000+09:00',
+    'title': 'apiテスト2',
+    'text': 'ほんとだね',
+    'created_date': timestr,
+    'published_date': timestr,
 }
 
 headers = {
