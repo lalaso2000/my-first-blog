@@ -1,16 +1,14 @@
-import urllib.request
 import json
+import requests
 
 url = 'http://127.0.0.1:8000/api/posts/'
 
 # リクエストを投げる
-req = urllib.request.Request(url)
-with urllib.request.urlopen(req) as res:
-    body = res.read()
+response = requests.get(url)
 
-# データを辞書形式に変更
-data = json.loads(body)
+# 結果を見てみる
+print('status_code : {}'.format(response.status_code))
 
-# 1つ1つ取り出してみる
-for d in data:
-    print(d['title'])
+data = response.json()
+
+print(json.dumps(data, indent=4))
