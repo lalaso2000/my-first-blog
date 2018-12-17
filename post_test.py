@@ -1,33 +1,38 @@
-import json
-import urllib.request
-from datetime import datetime as dt, timezone, timedelta
+import requests
+import sys
+from datetime import datetime, timedelta, timezone
+import os
 
-url = 'http://127.0.0.1:8000/api/posts/'
-
-# 現在時刻取得
+# 時間取得
 JST = timezone(timedelta(hours=+9), 'JST')
-timestr = dt.now(JST).isoformat()
-print(timestr)
 
-# postデータ生成
+# 制作時間
+created_date = datetime.now(JST).isoformat()
+
+# ファイル取得
+args = sys.argv
+fileName = args[1]
+baseName = os.path.basename(fileName)
+MINETYPE = 'application/png'
+fileDataBinary = open(fileName, 'rb').read()
+
+# 公開時間（ここで設定するのは間違いだけど…）
+published_date = datetime.now(JST).isoformat()
+
 data = {
     'author': 1,
-    'title': 'apiテスト2',
-    'text': 'ほんとだね',
-    'created_date': timestr,
-    'published_date': timestr,
+    'title': 'api＋ファイルアップロード',
+    'text': 'これができたら終わり！',
+    'created_data': created_date,
+    'published_date': published_date,
 }
 
-headers = {
-    'Content-Type': 'application/json',
+files = {
+    'attach': (baseName, fileDataBinary, MINETYPE)
 }
 
-print(json.dumps(data))
+url = 'http://127.0.0.1:8000/api/posts/'
+response = requests.post(url, data=data, files=files)
 
-req = urllib.request.Request(url, json.dumps(data).encode('utf-8'), headers)
-with urllib.request.urlopen(req) as res:
-    body = res.read()
-
-ans = json.loads(body)
-
-print(ans)
+print(response.status_code)
+print(response.content)

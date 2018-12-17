@@ -7,6 +7,8 @@ class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
+    # 音声データ
+    attach = models.FileField(verbose_name='添付ファイル', upload_to='uploads/%Y/%m/%d')
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
 
